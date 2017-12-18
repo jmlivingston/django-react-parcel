@@ -1,5 +1,5 @@
 {
-  "name": "django-demo",
+  "name": "django-react-parcel",
   "version": "1.0.0",
   "description": "This project is a way to quickly setup a barebones Django environment.",
   "scripts": {
