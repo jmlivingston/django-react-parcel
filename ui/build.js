@@ -1,18 +1,21 @@
-const fs = require('fs')
 const argv = require('yargs').argv
+const fs = require('fs')
+const path = require('path')
 const rimraf = require('rimraf')
 
 rimraf.sync('./dist')
 rimraf.sync('./.cache')
 
+const parcelPath = path.join(__dirname, 'node_modules', '.bin', 'parcel')
+const buildMode = argv.watch ? 'watch' : 'build'
+
 fs.readdir('./bootstrap', (err, files) => {
   files.forEach(file => {
     if (file.indexOf('.html') !== -1) {
-      const buildMode = argv.watch ? 'watch' : 'build'
-      const cmd = './node_modules/.bin/parcel ' + buildMode + ' bootstrap/' + file + ' --public-url /ui/dist/'
+      const cmd = parcelPath + ' ' + buildMode + ' bootstrap/' + file + ' --public-url /ui/dist/'
       console.log('Watching ' + file)
       const exec = require('child_process').exec
-      let childProcess = exec(cmd)
+      const childProcess = exec(cmd)
       childProcess.stdout.on('data', function(data) {
         // console.log('stdout: ' + data.toString())
       })

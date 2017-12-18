@@ -13,7 +13,7 @@
     "run-venv-win": "./venv/Scripts/activate.bat && python server/manage.py runserver",
     "browser-sync": "browser-sync start --files=\"/server/**/*.*\" --proxy 127.0.0.1:8000 --port 3000 --no-inject-changes --reload-delay=300 --reload-debounce=300 --no-inject-changes --ws --no-notify",
     "start-mac": "npm-run-all --parallel run-ui run-venv-mac",
-    "start-win": "npm-run-all --parallel run-ui run run-venv-win"
+    "start-win": "npm-run-all --parallel run-ui run-venv-win"
   },
   "keywords": [],
   "author": "",
