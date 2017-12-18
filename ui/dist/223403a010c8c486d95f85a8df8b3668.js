@@ -65,132 +65,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({10:[function(require,module,exports) {
-var bundleURL = null;
-function getBundleURLCached() {
-  if (!bundleURL) {
-    bundleURL = getBundleURL();
-  }
-
-  return bundleURL;
-}
-
-function getBundleURL() {
-  // Attempt to find the URL of the current script and use that as the base URL
-  try {
-    throw new Error;
-  } catch (err) {
-    var matches = ('' + err.stack).match(/(https?|file|ftp):\/\/[^\)\n]+/g);
-    if (matches) {
-      return getBaseURL(matches[0]);
-    }
-  }
-
-  return '/';
-}
-
-function getBaseURL(url) {
-  return ('' + url).replace(/^((?:https?|file|ftp):\/\/.+)\/[^\/]+$/, '$1') + '/';
-}
-
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-
-},{}],6:[function(require,module,exports) {
-var getBundleURL = require('./bundle-url').getBundleURL;
-
-function loadBundles(bundles) {
-  var id = Array.isArray(bundles) ? bundles[bundles.length - 1] : bundles;
-
-  try {
-    return Promise.resolve(require(id));
-  } catch (err) {
-    if (err.code === 'MODULE_NOT_FOUND') {
-      return new LazyPromise(function (resolve, reject) {
-        Promise.all(bundles.slice(0, -1).map(loadBundle)).then(function () {
-          return require(id);
-        }).then(resolve, reject);
-      });
-    }
-
-    throw err;
-  }
-}
-
-module.exports = exports = loadBundles;
-
-var bundles = {};
-var bundleLoaders = {
-  js: loadJSBundle,
-  css: loadCSSBundle
-};
-
-function loadBundle(bundle) {
-  if (bundles[bundle]) {
-    return bundles[bundle];
-  }
-
-  var type = bundle.match(/\.(.+)$/)[1].toLowerCase();
-  var bundleLoader = bundleLoaders[type];
-  if (bundleLoader) {
-    return bundles[bundle] = bundleLoader(getBundleURL() + bundle);
-  }
-}
-
-function loadJSBundle(bundle) {
-  return new Promise(function (resolve, reject) {
-    var script = document.createElement('script');
-    script.async = true;
-    script.type = 'text/javascript';
-    script.charset = 'utf-8';
-    script.src = bundle;
-    script.onerror = function (e) {
-      script.onerror = script.onload = null;
-      reject(e);
-    };
-
-    script.onload = function () {
-      script.onerror = script.onload = null;
-      resolve();
-    };
-
-    document.getElementsByTagName('head')[0].appendChild(script);
-  });
-}
-
-function loadCSSBundle(bundle) {
-  return new Promise(function (resolve, reject) {
-    var link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = bundle;
-    link.onerror = function (e) {
-      link.onerror = link.onload = null;
-      reject(e);
-    };
-
-    link.onload = function () {
-      link.onerror = link.onload = null;
-      resolve();
-    };
-
-    document.getElementsByTagName('head')[0].appendChild(link);
-  });
-}
-
-function LazyPromise(executor) {
-  this.executor = executor;
-  this.promise = null;
-}
-
-LazyPromise.prototype.then = function (onSuccess, onError) {
-  return this.promise || (this.promise = new Promise(this.executor).then(onSuccess, onError));
-};
-
-LazyPromise.prototype.catch = function (onError) {
-  return this.promise || (this.promise = new Promise(this.executor).catch(onError));
-};
-
-},{"./bundle-url":10}],26:[function(require,module,exports) {
+})({30:[function(require,module,exports) {
 /*
 object-assign
 (c) Sindre Sorhus
@@ -282,7 +157,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 	return to;
 };
 
-},{}],30:[function(require,module,exports) {
+},{}],31:[function(require,module,exports) {
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -300,7 +175,7 @@ if ("development" !== 'production') {
 }
 
 module.exports = emptyObject;
-},{}],31:[function(require,module,exports) {
+},{}],32:[function(require,module,exports) {
 "use strict";
 
 /**
@@ -337,7 +212,7 @@ emptyFunction.thatReturnsArgument = function (arg) {
 };
 
 module.exports = emptyFunction;
-},{}],18:[function(require,module,exports) {
+},{}],22:[function(require,module,exports) {
 /** @license React v16.2.0
  * react.production.min.js
  *
@@ -360,7 +235,7 @@ var U={Children:{map:function(a,b,e){if(null==a)return a;var c=[];T(a,c,null,b,e
 d=a.key,g=a.ref,k=a._owner;if(null!=b){void 0!==b.ref&&(g=b.ref,k=G.current);void 0!==b.key&&(d=""+b.key);if(a.type&&a.type.defaultProps)var f=a.type.defaultProps;for(h in b)H.call(b,h)&&!I.hasOwnProperty(h)&&(c[h]=void 0===b[h]&&void 0!==f?f[h]:b[h])}var h=arguments.length-2;if(1===h)c.children=e;else if(1<h){f=Array(h);for(var l=0;l<h;l++)f[l]=arguments[l+2];c.children=f}return{$$typeof:r,type:a.type,key:d,ref:g,props:c,_owner:k}},createFactory:function(a){var b=J.bind(null,a);b.type=a;return b},
 isValidElement:K,version:"16.2.0",__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED:{ReactCurrentOwner:G,assign:m}},V=Object.freeze({default:U}),W=V&&U||V;module.exports=W["default"]?W["default"]:W;
 
-},{"object-assign":26,"fbjs/lib/emptyObject":30,"fbjs/lib/emptyFunction":31}],240:[function(require,module,exports) {
+},{"object-assign":30,"fbjs/lib/emptyObject":31,"fbjs/lib/emptyFunction":32}],461:[function(require,module,exports) {
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -374,7 +249,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 
 module.exports = ReactPropTypesSecret;
 
-},{}],32:[function(require,module,exports) {
+},{}],490:[function(require,module,exports) {
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -428,7 +303,7 @@ function invariant(condition, format, a, b, c, d, e, f) {
 }
 
 module.exports = invariant;
-},{}],33:[function(require,module,exports) {
+},{}],489:[function(require,module,exports) {
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  *
@@ -491,7 +366,7 @@ if ("development" !== 'production') {
 }
 
 module.exports = warning;
-},{"./emptyFunction":31}],29:[function(require,module,exports) {
+},{"./emptyFunction":32}],463:[function(require,module,exports) {
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -551,7 +426,7 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
 }
 
 module.exports = checkPropTypes;
-},{"./lib/ReactPropTypesSecret":240,"fbjs/lib/invariant":32,"fbjs/lib/warning":33}],19:[function(require,module,exports) {
+},{"./lib/ReactPropTypesSecret":461,"fbjs/lib/invariant":490,"fbjs/lib/warning":489}],23:[function(require,module,exports) {
 /** @license React v16.2.0
  * react.development.js
  *
@@ -1903,7 +1778,7 @@ if ("development" !== "production") {
     module.exports = react;
   })();
 }
-},{"object-assign":26,"prop-types/checkPropTypes":29,"fbjs/lib/emptyObject":30,"fbjs/lib/invariant":32,"fbjs/lib/warning":33,"fbjs/lib/emptyFunction":31}],12:[function(require,module,exports) {
+},{"object-assign":30,"fbjs/lib/emptyObject":31,"fbjs/lib/emptyFunction":32,"prop-types/checkPropTypes":463,"fbjs/lib/warning":489,"fbjs/lib/invariant":490}],16:[function(require,module,exports) {
 'use strict';
 
 if ("development" === 'production') {
@@ -1911,29 +1786,7 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react.development.js');
 }
-},{"./cjs/react.production.min.js":18,"./cjs/react.development.js":19}],8:[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var About = function About() {
-  return _react2.default.createElement(
-    "h1",
-    null,
-    "About (React)"
-  );
-};
-
-exports.default = About;
-},{"react":12}],34:[function(require,module,exports) {
+},{"./cjs/react.production.min.js":22,"./cjs/react.development.js":23}],501:[function(require,module,exports) {
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -1967,44 +1820,7 @@ var ExecutionEnvironment = {
 };
 
 module.exports = ExecutionEnvironment;
-},{}],35:[function(require,module,exports) {
-'use strict';
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * @typechecks
- */
-
-/* eslint-disable fb-www/typeof-undefined */
-
-/**
- * Same as document.activeElement but wraps in a try-catch block. In IE it is
- * not safe to call document.activeElement if there is nothing focused.
- *
- * The activeElement will be null only if the document or document body is not
- * yet defined.
- *
- * @param {?DOMDocument} doc Defaults to current document.
- * @return {?DOMElement}
- */
-function getActiveElement(doc) /*?DOMElement*/{
-  doc = doc || (typeof document !== 'undefined' ? document : undefined);
-  if (typeof doc === 'undefined') {
-    return null;
-  }
-  try {
-    return doc.activeElement || doc.body;
-  } catch (e) {
-    return doc.body;
-  }
-}
-
-module.exports = getActiveElement;
-},{}],36:[function(require,module,exports) {
+},{}],502:[function(require,module,exports) {
 'use strict';
 
 /**
@@ -2079,7 +1895,153 @@ var EventListener = {
 };
 
 module.exports = EventListener;
-},{"./emptyFunction":31}],37:[function(require,module,exports) {
+},{"./emptyFunction":32}],525:[function(require,module,exports) {
+'use strict';
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @typechecks
+ */
+
+/**
+ * @param {*} object The object to check.
+ * @return {boolean} Whether or not the object is a DOM node.
+ */
+function isNode(object) {
+  var doc = object ? object.ownerDocument || object : document;
+  var defaultView = doc.defaultView || window;
+  return !!(object && (typeof defaultView.Node === 'function' ? object instanceof defaultView.Node : typeof object === 'object' && typeof object.nodeType === 'number' && typeof object.nodeName === 'string'));
+}
+
+module.exports = isNode;
+},{}],518:[function(require,module,exports) {
+'use strict';
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @typechecks
+ */
+
+var isNode = require('./isNode');
+
+/**
+ * @param {*} object The object to check.
+ * @return {boolean} Whether or not the object is a DOM text node.
+ */
+function isTextNode(object) {
+  return isNode(object) && object.nodeType == 3;
+}
+
+module.exports = isTextNode;
+},{"./isNode":525}],503:[function(require,module,exports) {
+'use strict';
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
+
+var isTextNode = require('./isTextNode');
+
+/*eslint-disable no-bitwise */
+
+/**
+ * Checks if a given DOM node contains or is another DOM node.
+ */
+function containsNode(outerNode, innerNode) {
+  if (!outerNode || !innerNode) {
+    return false;
+  } else if (outerNode === innerNode) {
+    return true;
+  } else if (isTextNode(outerNode)) {
+    return false;
+  } else if (isTextNode(innerNode)) {
+    return containsNode(outerNode, innerNode.parentNode);
+  } else if ('contains' in outerNode) {
+    return outerNode.contains(innerNode);
+  } else if (outerNode.compareDocumentPosition) {
+    return !!(outerNode.compareDocumentPosition(innerNode) & 16);
+  } else {
+    return false;
+  }
+}
+
+module.exports = containsNode;
+},{"./isTextNode":518}],504:[function(require,module,exports) {
+'use strict';
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @typechecks
+ */
+
+/* eslint-disable fb-www/typeof-undefined */
+
+/**
+ * Same as document.activeElement but wraps in a try-catch block. In IE it is
+ * not safe to call document.activeElement if there is nothing focused.
+ *
+ * The activeElement will be null only if the document or document body is not
+ * yet defined.
+ *
+ * @param {?DOMDocument} doc Defaults to current document.
+ * @return {?DOMElement}
+ */
+function getActiveElement(doc) /*?DOMElement*/{
+  doc = doc || (typeof document !== 'undefined' ? document : undefined);
+  if (typeof doc === 'undefined') {
+    return null;
+  }
+  try {
+    return doc.activeElement || doc.body;
+  } catch (e) {
+    return doc.body;
+  }
+}
+
+module.exports = getActiveElement;
+},{}],505:[function(require,module,exports) {
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+'use strict';
+
+/**
+ * @param {DOMElement} node input/textarea to focus
+ */
+
+function focusNode(node) {
+  // IE8 can throw "Can't move focus to the control because it is invisible,
+  // not enabled, or of a type that does not accept the focus." for all kinds of
+  // reasons that are too expensive and fragile to test.
+  try {
+    node.focus();
+  } catch (e) {}
+}
+
+module.exports = focusNode;
+},{}],506:[function(require,module,exports) {
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -2145,116 +2107,7 @@ function shallowEqual(objA, objB) {
 }
 
 module.exports = shallowEqual;
-},{}],38:[function(require,module,exports) {
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-'use strict';
-
-/**
- * @param {DOMElement} node input/textarea to focus
- */
-
-function focusNode(node) {
-  // IE8 can throw "Can't move focus to the control because it is invisible,
-  // not enabled, or of a type that does not accept the focus." for all kinds of
-  // reasons that are too expensive and fragile to test.
-  try {
-    node.focus();
-  } catch (e) {}
-}
-
-module.exports = focusNode;
-},{}],361:[function(require,module,exports) {
-'use strict';
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * @typechecks
- */
-
-/**
- * @param {*} object The object to check.
- * @return {boolean} Whether or not the object is a DOM node.
- */
-function isNode(object) {
-  var doc = object ? object.ownerDocument || object : document;
-  var defaultView = doc.defaultView || window;
-  return !!(object && (typeof defaultView.Node === 'function' ? object instanceof defaultView.Node : typeof object === 'object' && typeof object.nodeType === 'number' && typeof object.nodeName === 'string'));
-}
-
-module.exports = isNode;
-},{}],239:[function(require,module,exports) {
-'use strict';
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * @typechecks
- */
-
-var isNode = require('./isNode');
-
-/**
- * @param {*} object The object to check.
- * @return {boolean} Whether or not the object is a DOM text node.
- */
-function isTextNode(object) {
-  return isNode(object) && object.nodeType == 3;
-}
-
-module.exports = isTextNode;
-},{"./isNode":361}],39:[function(require,module,exports) {
-'use strict';
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * 
- */
-
-var isTextNode = require('./isTextNode');
-
-/*eslint-disable no-bitwise */
-
-/**
- * Checks if a given DOM node contains or is another DOM node.
- */
-function containsNode(outerNode, innerNode) {
-  if (!outerNode || !innerNode) {
-    return false;
-  } else if (outerNode === innerNode) {
-    return true;
-  } else if (isTextNode(outerNode)) {
-    return false;
-  } else if (isTextNode(innerNode)) {
-    return containsNode(outerNode, innerNode.parentNode);
-  } else if ('contains' in outerNode) {
-    return outerNode.contains(innerNode);
-  } else if (outerNode.compareDocumentPosition) {
-    return !!(outerNode.compareDocumentPosition(innerNode) & 16);
-  } else {
-    return false;
-  }
-}
-
-module.exports = containsNode;
-},{"./isTextNode":239}],20:[function(require,module,exports) {
+},{}],24:[function(require,module,exports) {
 /** @license React v16.2.0
  * react-dom.production.min.js
  *
@@ -2485,7 +2338,7 @@ var Sg={createPortal:Qg,findDOMNode:function(a){if(null==a)return null;if(1===a.
 E("40");return a._reactRootContainer?(Z.unbatchedUpdates(function(){Pg(null,null,a,!1,function(){a._reactRootContainer=null})}),!0):!1},unstable_createPortal:Qg,unstable_batchedUpdates:tc,unstable_deferredUpdates:Z.deferredUpdates,flushSync:Z.flushSync,__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED:{EventPluginHub:mb,EventPluginRegistry:Va,EventPropagators:Cb,ReactControlledComponent:qc,ReactDOMComponentTree:sb,ReactDOMEventListener:xd}};
 Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",rendererPackageName:"react-dom"});var Tg=Object.freeze({default:Sg}),Ug=Tg&&Sg||Tg;module.exports=Ug["default"]?Ug["default"]:Ug;
 
-},{"react":12,"object-assign":26,"fbjs/lib/ExecutionEnvironment":34,"fbjs/lib/emptyFunction":31,"fbjs/lib/getActiveElement":35,"fbjs/lib/EventListener":36,"fbjs/lib/shallowEqual":37,"fbjs/lib/focusNode":38,"fbjs/lib/containsNode":39,"fbjs/lib/emptyObject":30}],242:[function(require,module,exports) {
+},{"react":16,"object-assign":30,"fbjs/lib/ExecutionEnvironment":501,"fbjs/lib/EventListener":502,"fbjs/lib/emptyFunction":32,"fbjs/lib/containsNode":503,"fbjs/lib/getActiveElement":504,"fbjs/lib/focusNode":505,"fbjs/lib/shallowEqual":506,"fbjs/lib/emptyObject":31}],530:[function(require,module,exports) {
 'use strict';
 
 /**
@@ -2516,7 +2369,7 @@ function hyphenate(string) {
 }
 
 module.exports = hyphenate;
-},{}],40:[function(require,module,exports) {
+},{}],528:[function(require,module,exports) {
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -2553,7 +2406,7 @@ function hyphenateStyleName(string) {
 }
 
 module.exports = hyphenateStyleName;
-},{"./hyphenate":242}],241:[function(require,module,exports) {
+},{"./hyphenate":530}],531:[function(require,module,exports) {
 "use strict";
 
 /**
@@ -2583,7 +2436,7 @@ function camelize(string) {
 }
 
 module.exports = camelize;
-},{}],41:[function(require,module,exports) {
+},{}],529:[function(require,module,exports) {
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -2621,7 +2474,7 @@ function camelizeStyleName(string) {
 }
 
 module.exports = camelizeStyleName;
-},{"./camelize":241}],21:[function(require,module,exports) {
+},{"./camelize":531}],25:[function(require,module,exports) {
 /** @license React v16.2.0
  * react-dom.development.js
  *
@@ -17979,7 +17832,7 @@ if ("development" !== "production") {
     module.exports = reactDom;
   })();
 }
-},{"react":12,"object-assign":26,"prop-types/checkPropTypes":29,"fbjs/lib/invariant":32,"fbjs/lib/warning":33,"fbjs/lib/ExecutionEnvironment":34,"fbjs/lib/emptyFunction":31,"fbjs/lib/EventListener":36,"fbjs/lib/getActiveElement":35,"fbjs/lib/shallowEqual":37,"fbjs/lib/containsNode":39,"fbjs/lib/focusNode":38,"fbjs/lib/emptyObject":30,"fbjs/lib/hyphenateStyleName":40,"fbjs/lib/camelizeStyleName":41}],13:[function(require,module,exports) {
+},{"react":16,"object-assign":30,"prop-types/checkPropTypes":463,"fbjs/lib/invariant":490,"fbjs/lib/warning":489,"fbjs/lib/ExecutionEnvironment":501,"fbjs/lib/EventListener":502,"fbjs/lib/emptyFunction":32,"fbjs/lib/getActiveElement":504,"fbjs/lib/containsNode":503,"fbjs/lib/focusNode":505,"fbjs/lib/shallowEqual":506,"fbjs/lib/emptyObject":31,"fbjs/lib/hyphenateStyleName":528,"fbjs/lib/camelizeStyleName":529}],17:[function(require,module,exports) {
 'use strict';
 
 function checkDCE() {
@@ -18015,7 +17868,132 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.production.min.js":20,"./cjs/react-dom.development.js":21}],4:[function(require,module,exports) {
+},{"./cjs/react-dom.production.min.js":24,"./cjs/react-dom.development.js":25}],14:[function(require,module,exports) {
+var bundleURL = null;
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
+
+  return bundleURL;
+}
+
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error;
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp):\/\/[^\)\n]+/g);
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp):\/\/.+)\/[^\/]+$/, '$1') + '/';
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+
+},{}],6:[function(require,module,exports) {
+var getBundleURL = require('./bundle-url').getBundleURL;
+
+function loadBundles(bundles) {
+  var id = Array.isArray(bundles) ? bundles[bundles.length - 1] : bundles;
+
+  try {
+    return Promise.resolve(require(id));
+  } catch (err) {
+    if (err.code === 'MODULE_NOT_FOUND') {
+      return new LazyPromise(function (resolve, reject) {
+        Promise.all(bundles.slice(0, -1).map(loadBundle)).then(function () {
+          return require(id);
+        }).then(resolve, reject);
+      });
+    }
+
+    throw err;
+  }
+}
+
+module.exports = exports = loadBundles;
+
+var bundles = {};
+var bundleLoaders = {
+  js: loadJSBundle,
+  css: loadCSSBundle
+};
+
+function loadBundle(bundle) {
+  if (bundles[bundle]) {
+    return bundles[bundle];
+  }
+
+  var type = bundle.match(/\.(.+)$/)[1].toLowerCase();
+  var bundleLoader = bundleLoaders[type];
+  if (bundleLoader) {
+    return bundles[bundle] = bundleLoader(getBundleURL() + bundle);
+  }
+}
+
+function loadJSBundle(bundle) {
+  return new Promise(function (resolve, reject) {
+    var script = document.createElement('script');
+    script.async = true;
+    script.type = 'text/javascript';
+    script.charset = 'utf-8';
+    script.src = bundle;
+    script.onerror = function (e) {
+      script.onerror = script.onload = null;
+      reject(e);
+    };
+
+    script.onload = function () {
+      script.onerror = script.onload = null;
+      resolve();
+    };
+
+    document.getElementsByTagName('head')[0].appendChild(script);
+  });
+}
+
+function loadCSSBundle(bundle) {
+  return new Promise(function (resolve, reject) {
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = bundle;
+    link.onerror = function (e) {
+      link.onerror = link.onload = null;
+      reject(e);
+    };
+
+    link.onload = function () {
+      link.onerror = link.onload = null;
+      resolve();
+    };
+
+    document.getElementsByTagName('head')[0].appendChild(link);
+  });
+}
+
+function LazyPromise(executor) {
+  this.executor = executor;
+  this.promise = null;
+}
+
+LazyPromise.prototype.then = function (onSuccess, onError) {
+  return this.promise || (this.promise = new Promise(this.executor).then(onSuccess, onError));
+};
+
+LazyPromise.prototype.catch = function (onError) {
+  return this.promise || (this.promise = new Promise(this.executor).catch(onError));
+};
+
+},{"./bundle-url":14}],4:[function(require,module,exports) {
 "use strict";
 
 var _react = require("react");
@@ -18026,16 +18004,146 @@ var _reactDom = require("react-dom");
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _About = require("../src/containers/About");
-
-var _About2 = _interopRequireDefault(_About);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// import('babel-polyfill')
+// import React from 'react'
+// import ReactDOM from 'react-dom'
+
+// // const loadComponent = async () => {
+// //   const dataset = document.getElementById('bootstrap').dataset
+// //   const data = dataset.data || {}
+// //   const json = JSON.parse(data.replace(/'/g, '"'))
+// //   const path = dataset.path
+// //   try {
+// //     async switch (path) {
+// //       case 'home':
+// //         const { Home } = await import('./../src/containers/Home')
+// //         ReactDOM.render(<Home {...json} />, document.getElementById('bootstrap'))
+// //         break
+// //       case 'contact-us':
+// //         const { ContactUs } = await import('./../src/containers/ContactUs')
+// //         ReactDOM.render(<ContactUs {...json} />, document.getElementById('bootstrap'))
+// //         break
+// //       case 'about':
+// //         const { About } = await import('./../src/containers/About')
+// //         ReactDOM.render(<About {...json} />, document.getElementById('bootstrap'))
+// //         break
+// //     }
+// //   }
+// //   catch(err) {
+// //     // TODO: Handle failure
+// //     console.log(err)
+// //   }
+// // }
+
+// // loadComponent()
+
+// const loadComponent = () => {
+//   console.log('foo')
+
+//   const dataset = document.getElementById('bootstrap').dataset
+//   const data = dataset.data || '{}'
+//   const json = JSON.parse(data.replace(/'/g, '"'))
+//   const path = dataset.path
+
+//   //       const { Home } = await import('./../src/containers/Home')
+//   //       ReactDOM.render(<Home {...json} />, document.getElementById('bootstrap'))
+//   //       break
+
+//   const componentPath = ''
+//   switch (path) {
+//     case 'home':
+//       const { Home } = await import('./../src/containers/Home')
+//       ReactDOM.render(<Home {...json} />, document.getElementById('bootstrap'))
+//       break
+//     case 'contact-us':
+//       const { ContactUs } = await import('./../src/containers/ContactUs')
+//       ReactDOM.render(<ContactUs {...json} />, document.getElementById('bootstrap'))
+//       break
+//     case 'about':
+//       const { About } = await import('./../src/containers/About')
+//       ReactDOM.render(<About {...json} />, document.getElementById('bootstrap'))
+//       break
+//   }
+
+//   if(componentPath !== '') {
+//     import('./../src/containers/About').then((About) => {
+//       // ReactDOM.render(<Home {...json} />, document.getElementById('bootstrap'))
+//       const Component = About.default
+//       ReactDOM.render(<Component />, document.getElementById('bootstrap'))
+//     }).catch(err => {
+//       console.log(err)
+//     })
+//   }
+
+//   // const dataset = document.getElementById('bootstrap').dataset
+//   // const data = dataset.data || {}
+//   // const json = JSON.parse(data.replace(/'/g, '"'))
+//   // const path = dataset.path
+//   // try {
+//   //   async switch (path) {
+//   //     case 'home':
+//   //       const { Home } = await import('./../src/containers/Home')
+//   //       ReactDOM.render(<Home {...json} />, document.getElementById('bootstrap'))
+//   //       break
+//   //     case 'contact-us':
+//   //       const { ContactUs } = await import('./../src/containers/ContactUs')
+//   //       ReactDOM.render(<ContactUs {...json} />, document.getElementById('bootstrap'))
+//   //       break
+//   //     case 'about':
+//   //       const { About } = await import('./../src/containers/About')
+//   //       ReactDOM.render(<About {...json} />, document.getElementById('bootstrap'))
+//   //       break
+//   //   }
+//   // }
+//   // catch(err) {
+//   //   // TODO: Handle failure
+//   //   console.log(err)
+//   // }
+// }
+
+// loadComponent()
 
 require("_bundle_loader")(require.resolve('babel-polyfill'));
 
-_reactDom2.default.render(_react2.default.createElement(_About2.default, null), document.getElementById('about'));
-},{"_bundle_loader":6,"../src/containers/About":8,"react":12,"react-dom":13,"babel-polyfill":["babel-polyfill.js",14]}],0:[function(require,module,exports) {
+
+var loadComponent = function loadComponent() {
+  var dataset = document.getElementById('bootstrap').dataset;
+  var data = dataset.data || '{}';
+  var json = JSON.parse(data.replace(/'/g, '"'));
+  var path = dataset.path;
+  var componentPath = '';
+  switch (path) {
+    case 'home':
+      require("_bundle_loader")(require.resolve('./../src/containers/Home')).then(function (Home) {
+        var Component = Home.default;
+        _reactDom2.default.render(_react2.default.createElement(Component, json), document.getElementById('bootstrap'));
+      }).catch(function (err) {
+        console.log(err);
+      });
+      break;
+    case 'contact-us':
+      require("_bundle_loader")(require.resolve('./../src/containers/ContactUs')).then(function (ContactUs) {
+        var Component = ContactUs.default;
+        _reactDom2.default.render(_react2.default.createElement(Component, json), document.getElementById('bootstrap'));
+      }).catch(function (err) {
+        console.log(err);
+      });
+      break;
+    case 'about':
+      require("_bundle_loader")(require.resolve('./../src/containers/About')).then(function (About) {
+        var Component = About.default;
+        _reactDom2.default.render(_react2.default.createElement(Component, json), document.getElementById('bootstrap'));
+      }).catch(function (err) {
+        console.log(err);
+      });
+      break;
+  }
+};
+
+loadComponent();
+},{"react":16,"react-dom":17,"_bundle_loader":6,"babel-polyfill":["babel-polyfill.js",18],"./../src/containers/Home":["8b53c4b0244868c6de572fd3aee1fa4e.js",8],"./../src/containers/ContactUs":["e564448cefb87447f5cbb8ab53d441ce.js",9],"./../src/containers/About":["c2187e5bf050ce610d5c459f9f9a855b.js",10]}],0:[function(require,module,exports) {
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
 function Module() {
@@ -18053,7 +18161,7 @@ function Module() {
 module.bundle.Module = Module;
 
 if (!module.bundle.parent) {
-  var ws = new WebSocket('ws://localhost:56684/');
+  var ws = new WebSocket('ws://localhost:62366/');
   ws.onmessage = function(event) {
     var data = JSON.parse(event.data);
 
