@@ -1,0 +1,23 @@
+{
+  "name": "django-demo",
+  "version": "1.0.0",
+  "description": "This project is a way to quickly setup a barebones Django environment.",
+  "scripts": {
+    "install": "cd ui && yarn && cd .. && python3 -m venv venv && . venv/bin/activate && pip install -r requirements.txt && exit",
+    "migrate": ". venv/bin/activate && python server/manage.py migrate",
+    "build:ui": "cd ui && node ./build",
+    "run:server": ". venv/bin/activate && python server/manage.py runserver",
+    "run:ui": "cd ui && node ./build --watch",
+    "browser-sync": "browser-sync start --files=\"/server/**/*.*\" --proxy 127.0.0.1:8000 --port 3000 --no-inject-changes --reload-delay=300 --reload-debounce=300 --no-inject-changes --ws --no-notify",
+    "start": "npm-run-all  --parallel run:*"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "npm-run-all": "^4.1.2"
+  },
+  "dependencies": {
+    "browser-sync": "^2.18.13"
+  }
+}
