@@ -3,13 +3,18 @@
   "version": "1.0.0",
   "description": "This project is a way to quickly setup a barebones Django environment.",
   "scripts": {
-    "install": "cd ui && yarn && cd .. && python3 -m venv venv && . venv/bin/activate && pip install -r requirements.txt && exit",
-    "migrate": ". venv/bin/activate && python server/manage.py migrate",
+    "install-mac": "cd ui && yarn && cd .. && python3 -m venv venv && yarn run run-venv-mac && pip install -r requirements.txt && exit",
+    "install-win": "cd ui && yarn && cd .. && python -m venv venv && yarn run run-venv-win && pip install -r requirements.txt && exit",
+    "migrate-mac": "run-venv-mac && python server/manage.py migrate",
+    "migrate-win": "run-venv-win && python server/manage.py migrate",
     "build:ui": "cd ui && node ./build",
-    "run:server": ". venv/bin/activate && python server/manage.py runserver",
+    "run-venv-mac": "./venv/bin/activate",
+    "run-venv-win": "./venv/Scripts/activate.bat",
+    "run:python": "python server/manage.py runserver",
     "run:ui": "cd ui && node ./build --watch",
     "browser-sync": "browser-sync start --files=\"/server/**/*.*\" --proxy 127.0.0.1:8000 --port 3000 --no-inject-changes --reload-delay=300 --reload-debounce=300 --no-inject-changes --ws --no-notify",
-    "start": "npm-run-all  --parallel run:*"
+    "start-mac": "npm-run-all  --parallel run-venv-mac run:*",
+    "start-win": "npm-run-all  --parallel run-venv-win run:*"
   },
   "keywords": [],
   "author": "",
