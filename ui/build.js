@@ -9,7 +9,7 @@ fs.readdir('./bootstrap', (err, files) => {
   files.forEach(file => {
     if (file.indexOf('.html') !== -1) {
       const buildMode = argv.watch ? 'watch' : 'build'
-      const cmd = './node_modules/.bin/parcel ' + buildMode + ' bootstrap/' + file + ' --public-url /ui/dist/ --no-hmr false'
+      const cmd = './node_modules/.bin/parcel ' + buildMode + ' bootstrap/' + file + ' --public-url /ui/dist/'
       console.log('Watching ' + file)
       const exec = require('child_process').exec
       let childProcess = exec(cmd)
