@@ -17,7 +17,9 @@
   <a href="/about">About</a>
   <br />
   <a href="/contact-us">Contact Us</a>
-  {% include "bootstrap.html" with path="home" data="{ 'greeting': 'Hello world', 'path': 'home' }" %}
+  {% include "bundler.html" with id="home" path="home" data="{ 'greeting': 'Hello world', 'path': 'home' }" %}
+  {% include "bundler.html" with id="about-component" path="about" %}
+  <h1>foo</h1>
 </body>
 
 </html>

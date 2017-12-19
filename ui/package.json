@@ -10,7 +10,9 @@
     "react-scripts": "1.0.17"
   },
   "devDependencies": {
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-syntax-object-rest-spread": "^6.13.0",
+    "babel-plugin-transform-async-generator-functions": "^6.24.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
@@ -25,6 +27,8 @@
     "build-prod": "node ./build",
     "watch": "node ./build --watch",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build-ui": "./node_modules/.bin/parcel build bundler/bundler.html --public-url /ui/dist",
+    "watch-ui": "./node_modules/.bin/parcel watch bundler/bundler.html --public-url /ui/dist"
   }
 }

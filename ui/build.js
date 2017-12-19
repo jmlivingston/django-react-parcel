@@ -8,7 +8,7 @@ rimraf.sync('./.cache')
 
 const buildMode = argv.watch ? 'watch' : 'build'
 const parcelPath = path.join(__dirname, '/node_modules/.bin/parcel')
-const cmd = parcelPath + ' ' + buildMode + ' bootstrap/bootstrap.html --public-url /ui/dist/'
+const cmd = parcelPath + ' ' + buildMode + ' bundler/bundler.html --public-url /ui/dist/'
 const exec = require('child_process').exec
 console.log('Watching ' + cmd)
 let childProcess = exec(cmd)

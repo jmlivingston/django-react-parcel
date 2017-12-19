@@ -1,4 +1,4 @@
 {
   "presets": ["env", "react"],
-  "plugins": ["syntax-object-rest-spread", "transform-class-properties"]
+  "plugins": ["syntax-object-rest-spread", "transform-class-properties", "syntax-dynamic-import"]
 }
